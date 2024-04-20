@@ -14,7 +14,35 @@ spec:
     singular: game
   scope: Namespaced
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - description: The phase of game.
+      jsonPath: .status.phase
+      name: Phase
+      type: string
+    - description: The Host Address.
+      jsonPath: .spec.host
+      name: Host
+      type: string
+    - description: The desired number of pods.
+      jsonPath: .spec.replicas
+      name: DESIRED
+      type: integer
+    - description: The number of currently all pods.
+      jsonPath: .status.replicas
+      name: CURRENT
+      type: integer
+    - description: The number of pods ready.
+      jsonPath: .status.readyReplicas
+      name: READY
+      type: integer
+    - description: CreationTimestamp is a timestamp representing the server time when
+        this object was created. It is not guaranteed to be set in happens-before
+        order across separate operations. Clients may not set this value. It is represented
+        in RFC3339 form and is in UTC.
+      jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1
     schema:
       openAPIV3Schema:
         description: Game is the Schema for the games API
@@ -84,3 +112,9 @@ spec:
         type: object
     served: true
     storage: true
+    subresources:
+      scale:
+        labelSelectorPath: .status.labelSelector
+        specReplicasPath: .spec.replicas
+        statusReplicasPath: .status.replicas
+      status: {}
