@@ -1,0 +1,11 @@
+apiVersion: myapp.mayooot.github.io/v1
+kind: Game
+metadata:
+  labels:
+    app.kubernetes.io/name: 2048-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: game-sample
+spec:
+  replicas: 1
+  image: alexwhen/docker-2048
+  host: mygame.io

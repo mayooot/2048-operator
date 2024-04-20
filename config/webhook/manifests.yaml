@@ -1,0 +1,52 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-myapp-mayooot-github-io-v1-game
+  failurePolicy: Fail
+  name: mgame.kb.io
+  rules:
+  - apiGroups:
+    - myapp.mayooot.github.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - games
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-myapp-mayooot-github-io-v1-game
+  failurePolicy: Fail
+  name: vgame.kb.io
+  rules:
+  - apiGroups:
+    - myapp.mayooot.github.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - games
+  sideEffects: None
